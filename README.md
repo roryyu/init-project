@@ -39,6 +39,11 @@ init-project/
 │   │   ├── logout.post.ts        # POST /api/auth/logout    退出登录
 │   │   ├── forgot-password.post.ts  # POST /api/auth/forgot-password  发送重置令牌
 │   │   └── reset-password.post.ts   # POST /api/auth/reset-password   重置密码
+│   ├── api/settings/             # 系统设置 API
+│   │   ├── index.get.ts          # GET  /api/settings       获取所有设置
+│   │   ├── index.post.ts         # POST /api/settings       创建设置或更新设置
+│   │   ├── [key].get.ts          # GET  /api/settings/:key 获取单个设置
+│   │   └── [key].delete.ts       # DELETE /api/settings/:key 删除设置
 │   └── utils/
 │       ├── prisma.ts             # Prisma 客户端单例（防止开发环境热重载创建多实例）
 │       └── auth.ts               # JWT 签发/验证 + bcrypt 密码哈希工具函数
@@ -78,6 +83,14 @@ init-project/
 | used | Boolean | 是否已使用 |
 | createdAt | DateTime | 创建时间 |
 
+**SystemSetting 表**
+
+| 字段 | 类型 | 说明 |
+|------|------|------|
+| key | String | 主键，设置项的键 |
+| value | String | 设置项的值 |
+| updatedAt | DateTime | 更新时间 |
+
 ### 认证流程
 
 ```
@@ -94,6 +107,8 @@ JWT 有效期为 24 小时，token 通过 `Authorization: Bearer <token>` 请求
 
 ### API 接口
 
+**认证接口**
+
 | 方法 | 路径 | 说明 | 请求体 |
 |------|------|------|--------|
 | POST | `/api/auth/register` | 注册 | `{ email, password, name?, phone?, tenantId? }` |
@@ -102,6 +117,15 @@ JWT 有效期为 24 小时，token 通过 `Authorization: Bearer <token>` 请求
 | POST | `/api/auth/logout` | 退出登录 | - |
 | POST | `/api/auth/forgot-password` | 申请密码重置 | `{ email }` |
 | POST | `/api/auth/reset-password` | 执行密码重置 | `{ token, password }` |
+
+**系统设置接口（需认证）**
+
+| 方法 | 路径 | 说明 | 请求体 |
+|------|------|------|--------|
+| GET | `/api/settings` | 获取所有系统设置 | - |
+| GET | `/api/settings/:key` | 获取单个设置 | - |
+| POST | `/api/settings` | 创建设置或更新设置 | `{ key, value }` |
+| DELETE | `/api/settings/:key` | 删除设置 | - |
 
 所有接口使用 Zod 进行请求体校验，校验失败返回 400。
 
@@ -163,7 +187,7 @@ psql -U postgres -c "CREATE DATABASE init_project;"
 npx prisma migrate dev --name init
 ```
 
-首次执行会自动创建 `User` 和 `PasswordReset` 表。后续修改模型时运行：
+首次执行会自动创建 `User`、`PasswordReset` 和 `SystemSetting` 表。后续修改模型时运行：
 
 ```bash
 npx prisma migrate dev --name <migration_name>

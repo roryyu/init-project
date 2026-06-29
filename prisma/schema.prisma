@@ -31,3 +31,9 @@ model PasswordReset {
 
   user User @relation(fields: [email], references: [email])
 }
+
+model SystemSetting {
+  key       String   @id
+  value     String
+  updatedAt DateTime @updatedAt
+}
