@@ -7,7 +7,6 @@ const registerSchema = z.object({
   password: z.string().min(6, '密码至少6个字符'),
   name: z.string().min(1, '请输入姓名').optional(),
   phone: z.string().optional(),
-  tenantId: z.string().optional(),
 })
 
 export default defineEventHandler(async (event) => {
@@ -45,7 +44,6 @@ export default defineEventHandler(async (event) => {
       password: hashedPassword,
       name: body.name,
       phone: body.phone,
-      tenantId: body.tenantId,
     },
   })
 
@@ -59,7 +57,6 @@ export default defineEventHandler(async (event) => {
       name: user.name,
       phone: user.phone,
       role: user.role,
-      tenantId: user.tenantId,
     },
   }
 })

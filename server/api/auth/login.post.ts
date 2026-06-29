@@ -40,7 +40,6 @@ export default defineEventHandler(async (event) => {
       name: user.name,
       phone: user.phone,
       role: user.role,
-      tenantId: user.tenantId,
     },
   }
 })
