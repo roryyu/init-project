@@ -19,6 +19,15 @@ const { data } = useAuth()
         <el-descriptions-item label="姓名">
           {{ data?.user?.name || '未设置' }}
         </el-descriptions-item>
+        <el-descriptions-item label="手机号">
+          {{ data?.user?.phone || '未设置' }}
+        </el-descriptions-item>
+        <el-descriptions-item label="角色">
+          {{ data?.user?.role }}
+        </el-descriptions-item>
+        <el-descriptions-item label="租户ID">
+          {{ data?.user?.tenantId || '未设置' }}
+        </el-descriptions-item>
         <el-descriptions-item label="注册时间">
           {{ data?.user?.createdAt }}
         </el-descriptions-item>

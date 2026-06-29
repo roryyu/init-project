@@ -17,6 +17,8 @@ const loading = ref(false)
 const form = reactive({
   name: '',
   email: '',
+  phone: '',
+  tenantId: '',
   password: '',
   confirmPassword: '',
 })
@@ -55,7 +57,7 @@ async function handleSubmit() {
 
   loading.value = true
   try {
-    await signUp({ name: form.name, email: form.email, password: form.password }, { redirect: false })
+    await signUp({ name: form.name, email: form.email, phone: form.phone || undefined, tenantId: form.tenantId || undefined, password: form.password }, { redirect: false })
     ElMessage.success('注册成功')
     router.push('/')
   }
@@ -80,6 +82,12 @@ async function handleSubmit() {
         </el-form-item>
         <el-form-item prop="email">
           <el-input v-model="form.email" placeholder="邮箱" size="large" />
+        </el-form-item>
+        <el-form-item prop="phone">
+          <el-input v-model="form.phone" placeholder="手机号（可选）" size="large" />
+        </el-form-item>
+        <el-form-item prop="tenantId">
+          <el-input v-model="form.tenantId" placeholder="租户ID（可选）" size="large" />
         </el-form-item>
         <el-form-item prop="password">
           <el-input v-model="form.password" type="password" placeholder="密码" size="large" show-password />

@@ -59,8 +59,11 @@ init-project/
 |------|------|------|
 | id | UUID | 主键 |
 | email | String | 唯一，用于登录 |
-| name | String? | 可选姓名 |
+| phone | String? | 唯一，可选手机号 |
 | password | String | bcrypt 哈希后的密码 |
+| name | String? | 可选姓名 |
+| role | String | 用户角色，默认为 "USER" |
+| tenantId | String? | 可选租户ID |
 | createdAt | DateTime | 创建时间 |
 | updatedAt | DateTime | 更新时间 |
 
@@ -93,7 +96,7 @@ JWT 有效期为 24 小时，token 通过 `Authorization: Bearer <token>` 请求
 
 | 方法 | 路径 | 说明 | 请求体 |
 |------|------|------|--------|
-| POST | `/api/auth/register` | 注册 | `{ email, password, name? }` |
+| POST | `/api/auth/register` | 注册 | `{ email, password, name?, phone?, tenantId? }` |
 | POST | `/api/auth/login` | 登录 | `{ email, password }` |
 | GET | `/api/auth/me` | 获取当前用户 | - |
 | POST | `/api/auth/logout` | 退出登录 | - |
@@ -160,7 +163,11 @@ psql -U postgres -c "CREATE DATABASE init_project;"
 npx prisma migrate dev --name init
 ```
 
-首次执行会自动创建 `User` 和 `PasswordReset` 表。
+首次执行会自动创建 `User` 和 `PasswordReset` 表。后续修改模型时运行：
+
+```bash
+npx prisma migrate dev --name <migration_name>
+```
 
 ### 6. 启动开发服务器
 

@@ -10,8 +10,11 @@ datasource db {
 model User {
   id        String   @id @default(uuid())
   email     String   @unique
-  name      String?
+  phone     String?  @unique
   password  String
+  name      String?
+  role      String   @default("USER")
+  tenantId  String?
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
