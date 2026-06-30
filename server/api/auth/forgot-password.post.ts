@@ -1,6 +1,6 @@
 import { z } from 'zod'
 import crypto from 'crypto'
-import { prisma } from '~/server/utils/prisma'
+import { prisma } from '../../utils/prisma'
 
 const forgotPasswordSchema = z.object({
   email: z.string().email('邮箱格式不正确'),

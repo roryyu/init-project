@@ -1,5 +1,5 @@
-import { prisma } from '~/server/utils/prisma'
-import { getUserFromToken } from '~/server/utils/auth'
+import { prisma } from '../../utils/prisma'
+import { getUserFromToken } from '../../utils/auth'
 
 export default defineEventHandler(async (event) => {
   const payload = getUserFromToken(event)

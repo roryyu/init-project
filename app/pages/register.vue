@@ -3,10 +3,6 @@ import type { FormInstance, FormRules } from 'element-plus'
 
 definePageMeta({
   layout: 'default',
-  auth: {
-    unauthenticatedOnly: true,
-    navigateAuthenticatedTo: '/',
-  },
 })
 
 const { signUp } = useAuth()
@@ -56,9 +52,8 @@ async function handleSubmit() {
 
   loading.value = true
   try {
-    await signUp({ name: form.name, email: form.email, phone: form.phone || undefined, password: form.password }, { redirect: false })
+    await signUp({ name: form.name, email: form.email, phone: form.phone || undefined, password: form.password }, { callbackUrl: '/dashboard' })
     ElMessage.success('注册成功')
-    router.push('/')
   }
   catch (error: any) {
     ElMessage.error(error?.data?.message || '注册失败')

@@ -1,6 +1,6 @@
 import { z } from 'zod'
-import { prisma } from '~/server/utils/prisma'
-import { hashPassword } from '~/server/utils/auth'
+import { prisma } from '../../utils/prisma'
+import { hashPassword } from '../../utils/auth'
 
 const resetPasswordSchema = z.object({
   token: z.string().min(1, '缺少重置令牌'),

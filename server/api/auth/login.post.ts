@@ -1,6 +1,6 @@
 import { z } from 'zod'
-import { prisma } from '~/server/utils/prisma'
-import { verifyPassword, generateToken } from '~/server/utils/auth'
+import { prisma } from '../../utils/prisma'
+import { verifyPassword, generateToken } from '../../utils/auth'
 
 const loginSchema = z.object({
   email: z.string().email('邮箱格式不正确'),

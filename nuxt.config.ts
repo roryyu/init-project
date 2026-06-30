@@ -17,11 +17,14 @@ export default defineNuxtConfig({
         maxAgeInSeconds: 60 * 60 * 24, // 24 hours
       },
       endpoints: {
-        signIn: { path: '/auth/login', method: 'post' },
-        signOut: { path: '/auth/logout', method: 'post' },
-        signUp: { path: '/auth/register', method: 'post' },
-        getSession: { path: '/auth/me', method: 'get' },
+        signIn: { path: '/api/auth/login', method: 'post' },
+        signOut: { path: '/api/auth/logout', method: 'post' },
+        signUp: { path: '/api/auth/register', method: 'post' },
+        getSession: { path: '/api/auth/me', method: 'get' },
       },
+    },
+    pages: {
+      login: '/login',
     },
     session: {
       enableRefreshPeriodically: false,

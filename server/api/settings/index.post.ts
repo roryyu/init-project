@@ -1,6 +1,6 @@
 import { z } from 'zod'
-import { prisma } from '~/server/utils/prisma'
-import { getUserFromToken } from '~/server/utils/auth'
+import { prisma } from '../../utils/prisma'
+import { getUserFromToken } from '../../utils/auth'
 
 const settingSchema = z.object({
   key: z.string().min(1, 'key 不能为空'),

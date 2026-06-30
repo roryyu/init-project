@@ -3,14 +3,17 @@ import type { FormInstance, FormRules } from 'element-plus'
 
 definePageMeta({
   layout: 'default',
-  auth: {
-    unauthenticatedOnly: true,
-    navigateAuthenticatedTo: '/',
-  },
 })
 
-const { signIn } = useAuth()
+const { signIn, status } = useAuth()
 const router = useRouter()
+
+// 已登录用户访问登录页时自动跳转到 dashboard
+watch(status, (newStatus) => {
+  if (newStatus === 'authenticated') {
+    router.push('/dashboard')
+  }
+}, { immediate: true })
 
 const formRef = ref<FormInstance>()
 const loading = ref(false)
@@ -35,13 +38,14 @@ async function handleSubmit() {
 
   loading.value = true
   try {
-    await signIn({ email: form.email, password: form.password }, { redirect: false })
-    router.push('/')
+    await signIn(
+      { email: form.email, password: form.password },
+      { callbackUrl: '/dashboard' }
+    )
+    ElMessage.success('登录成功')
   }
   catch (error: any) {
-    ElMessage.error(error?.data?.message || '登录失败')
-  }
-  finally {
+    ElMessage.error(error?.data?.message || error?.message || '登录失败')
     loading.value = false
   }
 }
@@ -79,27 +83,32 @@ async function handleSubmit() {
   display: flex;
   justify-content: center;
   align-items: center;
-  min-height: 80vh;
+  min-height: calc(100vh - 120px);
+  padding: 20px;
 }
 
 .auth-card {
-  width: 400px;
+  width: 100%;
+  max-width: 400px;
 }
 
-h2 {
+.auth-card h2 {
   margin: 0;
   text-align: center;
+  font-size: 24px;
+  font-weight: 600;
 }
 
 .auth-links {
   display: flex;
   justify-content: space-between;
-  font-size: 14px;
+  margin-top: 16px;
 }
 
 .auth-links a {
   color: #409eff;
   text-decoration: none;
+  font-size: 14px;
 }
 
 .auth-links a:hover {
